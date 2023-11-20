@@ -1,0 +1,26 @@
+extends ../../layouts/default.pug 
+include ../../mixins/box-head.pug 
+
+block main 
+  .container.my-3 
+    .row 
+      .col-12 
+        +box-head('Chỉnh sửa thông tin')
+
+      .col-12 
+        form(action="/users/edit?_method=PATCH" method="POST") 
+          .form-group.row
+            label(for="fullName" class="col-3") Họ tên 
+            input(type="text", name="fullName" class="form-control col-9" value=user.fullName)
+
+          .form-group.row
+            label(for="email" class="col-3") Email 
+            input(type="text", name="email" class="form-control col-9" value=user.email readonly)
+
+
+          .form-group.row
+            label(for="phone" class="col-3") Số điện thoại 
+            input(type="text", name="phone" class="form-control col-9" value=user.phone)
+
+          button(type="submit" class="btn btn-primary") Cập nhật           
+            
