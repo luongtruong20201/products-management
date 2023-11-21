@@ -73,7 +73,7 @@ module.exports.index = async (req, res) => {
         _id: updatedBy.account_id,
       });
 
-      updatedBy.accountFullName = userUpdated.fullName;
+      updatedBy.accountFullName = userUpdated?.fullName;
     }
   }
 
