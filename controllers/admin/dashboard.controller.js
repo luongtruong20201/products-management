@@ -71,12 +71,12 @@ module.exports.dashboard = async (req, res) => {
       deleted: false,
       status: "inactive",
     }),
-    User.countDocuments({ deleted: false }),
-    User.countDocuments({
+    Account.countDocuments({ deleted: false }),
+    Account.countDocuments({
       deleted: false,
       status: "active",
     }),
-    User.countDocuments({
+    Account.countDocuments({
       deleted: false,
       status: "inactive",
     }),
