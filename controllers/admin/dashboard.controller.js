@@ -82,6 +82,8 @@ module.exports.dashboard = async (req, res) => {
     }),
   ]);
 
+  console.log(statistic);
+
   res.render("admin/pages/dashboard/index", {
     pageTitle: "Trang tổng quan",
     statistic,
