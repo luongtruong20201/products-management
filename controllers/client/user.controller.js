@@ -43,17 +43,20 @@ module.exports.loginPost = async (req, res) => {
     if (user.status === "inactive") {
       req.flash("error", "Tài khoản dã bị khóa");
       res.redirect("back");
+      return;
     }
     if (user.password === md5(req.body.password)) {
       const token = generateRandomString(50);
       await User.updateOne({ email: req.body.email }, { userToken: token });
-      res.cookie("tokenUser", token, { httpOnly: true });
       const cart = new Cart({ user_id: user.id });
       await cart.save();
+      res.cookie("tokenUser", token);
       res.redirect("/");
+      return;
     } else {
       req.flash("error", "Tài khoản hoặc mật khẩu không chính xác");
       res.redirect("back");
+      return;
     }
   }
 };

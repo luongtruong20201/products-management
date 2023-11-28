@@ -1,5 +1,6 @@
 const categoryMiddleware = require("../../middlewares/client/category.middleware");
 const userMiddleware = require("../../middlewares/client/user.middleware");
+const authMiddleware = require("../../middlewares/client/auth.middleware");
 const settingMiddleware = require("../../middlewares/client/setting.middleware");
 const homeRoutes = require("./home.route");
 const productRoutes = require("./product.route");
@@ -26,5 +27,5 @@ module.exports = (app) => {
 
   app.use("/users", userRoutes);
 
-  app.use("/chat", chatRoutes);
+  app.use("/chat", authMiddleware.requireAuth, chatRoutes);
 };
