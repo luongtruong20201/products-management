@@ -52,6 +52,12 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 app.locals.moment = moment;
 
 app.use(express.static(`${__dirname}/public`));
+app.use((err, req, res, next) => {
+  if (err) {
+    console.log(err);
+    res.redirect("/");
+  }
+});
 
 // Routes
 routeAdmin(app);

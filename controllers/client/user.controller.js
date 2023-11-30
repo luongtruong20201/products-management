@@ -8,7 +8,7 @@ const {
 } = require("../../helpers/generate");
 const { sendMail } = require("../../helpers/sendmail");
 module.exports.register = (req, res) => {
-  res.render("./client/pages/users/register", {
+  res.render("./client/pages/user/register", {
     pageTitle: "Đăng ký tài khoản",
   });
 };
@@ -26,12 +26,12 @@ module.exports.registerPost = async (req, res) => {
     await user.save();
 
     req.flash("success", "Đăng ký tài khoản thành công");
-    res.redirect("/users/login");
+    res.redirect("/user/login");
   }
 };
 
 module.exports.login = (req, res) => {
-  res.render("./client/pages/users/login", { pageTitle: "Đăng nhập" });
+  res.render("./client/pages/user/login", { pageTitle: "Đăng nhập" });
 };
 
 module.exports.loginPost = async (req, res) => {
@@ -77,7 +77,7 @@ module.exports.logout = async (req, res) => {
 };
 
 module.exports.forgotPassword = (req, res) => {
-  res.render("./client/pages/users/forgot-password", {
+  res.render("./client/pages/user/forgot-password", {
     pageTitle: "Quên mật khẩu",
   });
 };
@@ -100,7 +100,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
       await forgotPassword.save();
 
       req.flash("success", "Vui lòng kiểm tra email");
-      res.redirect(`/users/password/otp?email=${email}`);
+      res.redirect(`/user/password/otp?email=${email}`);
     }
   } catch (error) {
     console.log(error);
@@ -111,7 +111,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
 
 module.exports.otpPassword = (req, res) => {
   const { email } = req.query;
-  res.render("./client/pages/users/otp-password", {
+  res.render("./client/pages/user/otp-password", {
     pageTitle: "Nhập mã OTP",
     email,
   });
@@ -122,7 +122,7 @@ module.exports.otpPasswordPost = async (req, res) => {
   try {
     const record = await ForgotPassword.findOne({ otp, email });
     if (record !== null) {
-      res.redirect(`/users/password/reset?email=${email}`);
+      res.redirect(`/user/password/reset?email=${email}`);
     } else {
       req.flash("error", "Vui lòng thử lại sau");
       res.redirect("back");
@@ -134,7 +134,7 @@ module.exports.otpPasswordPost = async (req, res) => {
 
 module.exports.resetPassword = (req, res) => {
   const { email } = req.query;
-  res.render("./client/pages/users/reset", {
+  res.render("./client/pages/user/reset", {
     pageTitle: "Đặt lại mật khẩu",
     email,
   });
@@ -166,7 +166,7 @@ module.exports.resetPasswordPost = async (req, res) => {
 
 module.exports.info = async (req, res) => {
   const user = res.locals.user;
-  res.render("./client/pages/users/info", {
+  res.render("./client/pages/user/info", {
     user,
     pageTitle: "Thông tin tài khoản",
   });
@@ -174,7 +174,7 @@ module.exports.info = async (req, res) => {
 
 module.exports.edit = async (req, res) => {
   const user = res.locals.user;
-  res.render("./client/pages/users/edit", {
+  res.render("./client/pages/user/edit", {
     user,
     pageTitle: "Chỉnh sửa thông tin",
   });

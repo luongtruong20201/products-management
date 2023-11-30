@@ -1,8 +1,13 @@
 import * as Popper from "https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js";
-const upload = new FileUploadWithPreview.FileUploadWithPreview(
-  "upload-images",
-  { multiple: true, maxFileCount: 6 }
-);
+let upload = null;
+
+const customFileContainer = document.querySelector(".custom-file-container");
+if (customFileContainer) {
+  upload = new FileUploadWithPreview.FileUploadWithPreview("upload-images", {
+    multiple: true,
+    maxFileCount: 6,
+  });
+}
 
 // CLIENT_SEND_MESSAGE
 const formSendData = document.querySelector(".chat .inner-form");

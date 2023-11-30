@@ -39,13 +39,13 @@ header.header
               a(href="/cart") Giỏ hàng (#{miniCart ? miniCart.totalQuantity : 0})
             if(user)
               li 
-                a(href="/users/logout") Đăng xuất 
+                a(href="/user/logout") Đăng xuất 
               li 
-                a(href="/users/info") #{user.fullName} 
+                a(href="/user/info") #{user.fullName} 
               li 
                 a(href="/chat") Chat 
             else
               li 
-                a(href="/users/register") Đăng ký 
+                a(href="/user/register") Đăng ký 
               li 
-                a(href="/users/login") Đăng nhập 
+                a(href="/user/login") Đăng nhập 
