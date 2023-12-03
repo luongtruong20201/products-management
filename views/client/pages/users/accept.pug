@@ -7,11 +7,11 @@ block main
 
     .row 
       .col-12 
-        +box-head('Danh sách người dùng')
+        +box-head('Lời mời đã nhận')
     
-    .row 
+    .row(data-user-accept=user.id)
       each user in users 
-        .col-6 
+        div(class="col-6" user-id=user.id)
           .box-user
             .inner-avatar
               img(src=(user.avatar ? user.avatar : "/images/avatar.jpg"), alt=user.fullName)
@@ -22,5 +22,5 @@ block main
                 button(class="btn btn-sm btn-primary mr-1" btn-accept-friend=user.id) Xác nhận 
                 button(class="btn btn-sm btn-secondary mr-1" btn-refuse-friend=user.id) Từ chối 
                 button(class="btn btn-sm btn-secondary mr-1" btn-deleted-friend=user.id) Đã xóa 
+                button(class="btn btn-sm btn-secondary mr-1" btn-accepted-friend=user.id) Đã chấp nhận
   
-  script(src="/js/user.js")

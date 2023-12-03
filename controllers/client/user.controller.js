@@ -50,6 +50,15 @@ module.exports.loginPost = async (req, res) => {
       await User.updateOne({ email: req.body.email }, { userToken: token });
       const cart = new Cart({ user_id: user.id });
       await cart.save();
+      await User.updateOne({ _id: user.id }, { onlineStatus: "online" });
+
+      _io.once("connection", (socket) => {
+        socket.broadcast.emit("SERVER_RETURN_USER_ONLINE", {
+          userId: user.id,
+          status: "online",
+        });
+      });
+
       res.cookie("tokenUser", token);
       res.redirect("/");
       return;
@@ -64,7 +73,18 @@ module.exports.loginPost = async (req, res) => {
 module.exports.logout = async (req, res) => {
   try {
     const tokenUser = req.cookies.tokenUser;
-    await User.updateOne({ userToken: tokenUser }, { $set: { userToken: "" } });
+    await User.updateOne(
+      { userToken: tokenUser },
+      { $set: { userToken: "", onlineStatus: "offline" } }
+    );
+
+    _io.once("connection", (socket) => {
+      socket.broadcast.emit("SERVER_RETURN_USER_ONLINE", {
+        userId: res.locals.user.id,
+        status: "offline",
+      });
+    });
+
     res.clearCookie("tokenUser");
     res.clearCookie("cartId");
     req.flash("success", "Đăng xuất thành công");

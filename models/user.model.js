@@ -12,12 +12,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "active",
     },
+    onlineStatus: String,
     requestFriends: Array,
     acceptFriends: Array,
     friendList: [
       {
         user_id: String,
-        //  room_chat_id: String
+        room_chat_id: String,
       },
     ],
     deleted: {
