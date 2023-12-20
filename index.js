@@ -51,6 +51,11 @@ app.use(express.static(`${__dirname}/public`));
 routeAdmin(app);
 route(app);
 
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.redirect("back");
+});
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
