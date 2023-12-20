@@ -13,3 +13,18 @@ if (buttonChangeStatus.length > 0) {
     });
   });
 }
+
+const buttonDeleteUser = document.querySelectorAll("[button-delete]");
+if (buttonDeleteUser && buttonDeleteUser.length > 0) {
+  const formDeleteItem = document.querySelector("#form-delete-item");
+  buttonDeleteUser.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (formDeleteItem) {
+        const id = button.getAttribute("data-id");
+        const path = formDeleteItem.getAttribute("data-path");
+        formDeleteItem.action = `${path}/${id}?_method=DELETE`;
+        formDeleteItem.submit();
+      }
+    });
+  });
+}

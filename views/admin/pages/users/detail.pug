@@ -1,0 +1,23 @@
+extends ../../layouts/default.pug
+
+block main
+  h1(class="mb-4") Thông tin cá nhân
+
+  if (guest.avatar)
+    img(src=guest.avatar width="150px" class="mb-3")
+  else
+    img(src="/admin/images/avatar.png" width="150px" class="mb-3")
+
+  if (guest.fullName)
+    p Họ tên: <b>#{guest.fullName}</b>
+
+  if (guest.email)
+    p Email: <b>#{guest.email}</b>
+
+  if (guest.phone)
+    p Số điện thoại: <b>#{guest.phone}</b>
+
+  p 
+    span Trạng thái: 
+    span
+      <b>#{guest.status === "active" ? "Hoạt động": "Dừng hoạt động"}</b>

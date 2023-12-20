@@ -15,7 +15,7 @@ module.exports.index = async (req, res) => {
   for (const record of records) {
     const role = await Role.findOne({
       _id: record.role_id,
-      deleted: false
+      deleted: false,
     });
     record.role = role;
   }
@@ -29,12 +29,12 @@ module.exports.index = async (req, res) => {
 // [GET] /admin/accounts/create
 module.exports.create = async (req, res) => {
   const roles = await Role.find({
-    deleted: false
+    deleted: false,
   });
 
   res.render("admin/pages/accounts/create", {
     pageTitle: "Tạo mới tài khoản",
-    roles: roles
+    roles: roles,
   });
 };
 
@@ -42,10 +42,10 @@ module.exports.create = async (req, res) => {
 module.exports.createPost = async (req, res) => {
   const emailExist = await Account.findOne({
     email: req.body.email,
-    deleted: false
+    deleted: false,
   });
 
-  if(emailExist) {
+  if (emailExist) {
     req.flash("error", `Email ${req.body.email} đã tồn tại`);
     res.redirect("back");
   } else {
@@ -89,22 +89,38 @@ module.exports.editPatch = async (req, res) => {
   const emailExist = await Account.findOne({
     _id: { $ne: id },
     email: req.body.email,
-    deleted: false
+    deleted: false,
   });
 
-  if(emailExist) {
+  if (emailExist) {
     req.flash("error", `Email ${req.body.email} đã tồn tại`);
   } else {
-    if(req.body.password) {
+    if (req.body.password) {
       req.body.password = md5(req.body.password);
     } else {
       delete req.body.password;
     }
-  
+
     await Account.updateOne({ _id: id }, req.body);
-  
+
     req.flash("success", "Cập nhật tài khoản thành công!");
   }
 
   res.redirect("back");
+};
+
+module.exports.detail = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const account = await Account.findOne(
+      { _id: id },
+      { deleted: false }
+    ).select("-token -password");
+    const role = await Role.findOne({ _id: account.role_id, deleted: false });
+    return res.render("./admin/pages/accounts/detail", { account, role });
+  } catch (error) {
+    console.log(err);
+    res.redirect("back");
+  }
 };
